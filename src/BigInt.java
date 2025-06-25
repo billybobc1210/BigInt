@@ -230,7 +230,7 @@ public class BigInt implements Comparable<BigInt> {
             partialSumTrailingZeroes.append("0");
         }
 
-        result.sign = this.sign * multiplier.sign;
+        result = new BigInt((this.sign * multiplier.sign == -1 ? "-" : "") + result.digits);
 
         return result;
     }
@@ -289,11 +289,10 @@ public class BigInt implements Comparable<BigInt> {
         }
 
         if ((remainder != null) && !remainder.equals(ZERO)) {
-            remainder.sign = this.sign;
+            remainder = new BigInt((this.sign == -1 ? "-" : "") + remainder.digits);
         }
 
-        BigInt result = new BigInt(resultDigits);
-        result.sign = this.sign * divisor.sign;
+        BigInt result = new BigInt((this.sign * divisor.sign == -1 ? "-" : "") + resultDigits);
         result.remainder = remainder;
 
         return result;
