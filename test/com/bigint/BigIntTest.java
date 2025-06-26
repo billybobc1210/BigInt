@@ -205,73 +205,94 @@ public class BigIntTest {
     }
 
     @Test
-    public void addTwoPositiveIntegersTest1() {
+    public void addPositiveToPositiveTest1() {
         BigInt b1 = new BigInt("11111");
         BigInt b2 = new BigInt("22222");
         assertEquals(new BigInt("33333"), b1.add(b2));
     }
 
     @Test
-    public void addTwoPositiveIntegersTest2() {
+    public void addPositiveToPositiveTest2() {
         BigInt b1 = new BigInt("11111");
         BigInt b2 = new BigInt("222");
         assertEquals(new BigInt("11333"), b1.add(b2));
     }
 
     @Test
-    public void addTwoPositiveIntegersTest3() {
+    public void addPositiveToPositiveTest3() {
         BigInt b1 = new BigInt("111");
         BigInt b2 = new BigInt("22222");
         assertEquals(new BigInt("22333"), b1.add(b2));
     }
 
     @Test
-    public void addTwoPositiveIntegersTest4() {
+    public void addPositiveToPositiveTest4() {
         BigInt b1 = new BigInt("88888");
         BigInt b2 = new BigInt("99999");
         assertEquals(new BigInt("188887"), b1.add(b2));
     }
 
     @Test
-    public void addTwoPositiveIntegersTest5() {
+    public void addPositiveToPositiveTest5() {
         BigInt b1 = new BigInt("829735293293577235");
         BigInt b2 = new BigInt("2935872938523985");
         assertEquals(new BigInt("832671166232101220"), b1.add(b2));
     }
 
     @Test
-    public void addTwoNegativeIntegersTest1() {
+    public void addNegativeToNegativeTest1() {
         BigInt b1 = new BigInt("-11111");
         BigInt b2 = new BigInt("-22222");
         assertEquals(new BigInt("-33333"), b1.add(b2));
     }
 
     @Test
-    public void addTwoNegativeIntegersTest2() {
+    public void addNegativeToNegativeTest2() {
         BigInt b1 = new BigInt("-11111");
         BigInt b2 = new BigInt("-222");
         assertEquals(new BigInt("-11333"), b1.add(b2));
     }
 
     @Test
-    public void addTwoNegativeIntegersTest3() {
+    public void addNegativeToNegativeTest3() {
         BigInt b1 = new BigInt("-111");
         BigInt b2 = new BigInt("-22222");
         assertEquals(new BigInt("-22333"), b1.add(b2));
     }
 
     @Test
-    public void addTwoNegativeIntegersTest4() {
+    public void addNegativeToNegativeTest4() {
         BigInt b1 = new BigInt("-88888");
         BigInt b2 = new BigInt("-99999");
         assertEquals(new BigInt("-188887"), b1.add(b2));
     }
 
     @Test
-    public void addTwoNegativeIntegersTest5() {
+    public void addNegativeToNegativeTest5() {
         BigInt b1 = new BigInt("-829735293293577235");
         BigInt b2 = new BigInt("-2935872938523985");
         assertEquals(new BigInt("-832671166232101220"), b1.add(b2));
+    }
+
+    @Test
+    public void addNegativeToPositiveTest() {
+        BigInt b1 = new BigInt("3136654372");
+        BigInt b2 = new BigInt("-7342768707");
+        assertEquals(new BigInt("-4206114335"), b1.add(b2));
+    }
+
+    @Test
+    public void addPositiveToNegativeTest() {
+        BigInt b1 = new BigInt("-7342768707");
+        BigInt b2 = new BigInt("3136654372");
+        assertEquals(new BigInt("-4206114335"), b1.add(b2));
+    }
+
+    @Test
+    public void addNegativeToNegativeTest() {
+        BigInt b1 = new BigInt("-7342768707");
+        BigInt b2 = new BigInt("-3136654372");
+        assertEquals(new BigInt("-10479423079"), b1.add(b2));
     }
 
     @Test

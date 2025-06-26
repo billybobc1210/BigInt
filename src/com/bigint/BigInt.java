@@ -119,7 +119,7 @@ public class BigInt implements Comparable<BigInt> {
 
             return new BigInt((this.sign < 0 ? "-" : "") + resultDigits.reverse());
         } else if ((this.sign == 1) && (addend.sign == -1)) {
-            return addend.subtract(addend.negate());
+            return this.subtract(addend.negate());
         } else if ((this.sign == -1) && (addend.sign == 1)) {
             return addend.subtract(this.negate());
         }
