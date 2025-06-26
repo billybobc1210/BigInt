@@ -75,14 +75,17 @@ public class BigInt implements Comparable<BigInt> {
             return this;
         }
 
-        // The strategy for both addition and subtraction is to reorder operands and use negation to convert
-        // the original expression to an equivalent expression of one of the following two forms:
+        // Addition and subtraction are complicated by the fact that one or both of the operands might be negative.
+        // In such cases, the strategy is to reorder operands and use negation to convert the original expression
+        // to an equivalent expression of one of the following two forms:
         //
         //   positive + positive
-        //   positive - positive (where first operand > second operand)
+        //   positive - positive (where minuend > subtrahend)
         //
         // Once in one of these two forms it's easy to just perform the operation digit by digit starting on the
-        // right.  The following table describes the conversions that take place for addition.  A1 represents 'this'
+        // right and working left.
+        //
+        // The following table describes the conversions that take place for addition.  A1 represents 'this'
         // and A2 represents the 'addend' parameter passed to the method.
         //
         // A1 A2
@@ -141,14 +144,17 @@ public class BigInt implements Comparable<BigInt> {
             return ZERO;
         }
 
-        // The strategy for both addition and subtraction is to reorder operands and use negation to convert
-        // the original expression to an equivalent expression of one of the following two forms:
+        // Addition and subtraction are complicated by the fact that one or both of the operands might be negative.
+        // In such cases, the strategy is to reorder operands and use negation to convert the original expression
+        // to an equivalent expression of one of the following two forms:
         //
         //   positive + positive
-        //   positive - positive (where first operand > second operand)
+        //   positive - positive (where minuend > subtrahend)
         //
         // Once in one of these two forms it's easy to just perform the operation digit by digit starting on the
-        // right.  The following table describes the conversions that take place for subtraction.  M represents 'this'
+        // right and working left.
+        //
+        // The following table describes the conversions that take place for subtraction.  M represents 'this'
         // (the minuend) and S represents the 'subtrahend' parameter passed to the method.
         //
         // M S
