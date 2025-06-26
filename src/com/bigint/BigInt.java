@@ -310,7 +310,8 @@ public class BigInt implements Comparable<BigInt> {
             remainderDigits = new StringBuffer(remainder.digits);
         }
 
-        if ((remainder != null) && !remainder.equals(ZERO)) {
+        if (remainder != null) {
+            // remainder should always take the sign of the dividend
             remainder = new BigInt((this.sign == -1 ? "-" : "") + remainder.digits);
         }
 
