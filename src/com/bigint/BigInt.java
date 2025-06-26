@@ -331,11 +331,7 @@ public class BigInt implements Comparable<BigInt> {
     }
 
     public BigInt negate() {
-        if (this.sign == 1) {
-            return new BigInt("-" + this.digits);
-        } else {
-            return new BigInt(this.digits);
-        }
+        return new BigInt(((this.sign * -1 == -1) ? "-" : "") + this.digits);
     }
 
     @Override
