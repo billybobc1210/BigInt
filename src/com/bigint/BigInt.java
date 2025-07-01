@@ -234,7 +234,7 @@ public class BigInt implements Comparable<BigInt> {
         // multiplicand (this) =>      12345
         // multiplier          =>      x 221
         //                             -----
-        //                             12345  <- partial sum (1 x 12345)
+        //                             12345  <- partial sum (1 x 12345 x 1)
         //                         +  246900  <- partial sum (2 x 12345 x 10)
         //                         + 2469000  <- partial sum (2 x 12345 x 100)
         //                         ---------
