@@ -1,5 +1,8 @@
 package com.bigint;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BigInt implements Comparable<BigInt> {
     public static final BigInt ZERO = new BigInt("0");
     public static final BigInt ONE = new BigInt("1");
@@ -224,36 +227,60 @@ public class BigInt implements Comparable<BigInt> {
             return this.negate();
         }
 
+
+        // Multiplication is performed by adding a number of partial sums equal to the number of digits in the
+        // multiplier as follows:
+        //
+        // multiplicand (this) =>      12345
+        // multiplier          =>      x 221
+        //                             -----
+        //                             12345  <- partial sum (1 x 12345)
+        //                         +  246900  <- partial sum (2 x 12345 x 10)
+        //                         + 2469000  <- partial sum (2 x 12345 x 100)
+        //                         ---------
+        //                           2728245
         BigInt result = ZERO;
         StringBuffer partialSumTrailingZeroes = new StringBuffer();
 
+        // Performance enhancement: once we've calculated the partial sum for a particular digit in the multiplier
+        // there is no need to do the calculation again if that digit occurs in the multiplier again.  So we'll cache
+        // the digits of the partial sum (without trailing zeros) in the multiplierDigitToPartialSumDigitsMap hash map
+        // to be retrieved the next time we encounter that digit in multiplier.
+        //
+        // Further, we can seed the map for the digits 0 and 1 as follows:
+        //
+        //     0 => "0"
+        //     1 => digits of the multiplicand
+        Map<Integer, String> multiplierDigitToPartialSumDigitsMap = new HashMap<>();
+        multiplierDigitToPartialSumDigitsMap.put(0, "0");
+        multiplierDigitToPartialSumDigitsMap.put(1, this.digits);
+
         for (int i = multiplier.digits.length() - 1; i >= 0; i--) {
             int multiplierDigitVal = multiplier.digits.charAt(i) - '0';
-            StringBuffer partialSumDigits = new StringBuffer();
+            String partialSumDigits = multiplierDigitToPartialSumDigitsMap.get(multiplierDigitVal);
 
-            if (multiplierDigitVal == 0) {
-                partialSumDigits.append("0");
-            } else if (multiplierDigitVal == 1)  {
-                partialSumDigits.append(this.digits);
-            } else {
+            if (partialSumDigits == null) {
+                StringBuffer partialSumDigitsBuffer = new StringBuffer();
+
                 int carry = 0;
 
                 for (int j = this.digits.length() - 1; j >= 0; j--) {
                     int multiplicandDigitVal = this.digits.charAt(j) - '0';
                     int product = (multiplierDigitVal * multiplicandDigitVal) + carry;
-                    int resultDigitVal = product % 10;
+                    int partialSumDigitVal = product % 10;
                     carry = product / 10;
-                    partialSumDigits.append((char) ('0' + resultDigitVal));
+                    partialSumDigitsBuffer.append((char) ('0' + partialSumDigitVal));
                 }
 
                 if (carry > 0) {
-                    partialSumDigits.append((char) ('0' + carry));
+                    partialSumDigitsBuffer.append((char) ('0' + carry));
                 }
 
-                partialSumDigits = partialSumDigits.reverse();
+                partialSumDigits = partialSumDigitsBuffer.reverse().toString();
+                multiplierDigitToPartialSumDigitsMap.put(multiplierDigitVal, partialSumDigits);
             }
 
-            BigInt partialSum = new BigInt(partialSumDigits.append(partialSumTrailingZeroes));
+            BigInt partialSum = new BigInt(new StringBuffer(partialSumDigits).append(partialSumTrailingZeroes));
             result = result.add(partialSum);
             partialSumTrailingZeroes.append("0");
         }
