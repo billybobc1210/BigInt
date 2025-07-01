@@ -850,14 +850,21 @@ public class BigIntTest {
     public void compareTest13() {
         BigInt b1 = new BigInt("1234");
         BigInt b2 = BigInt.ZERO;
-        assertEquals(-1, b1.compareTo(b2));
+        assertEquals(1, b1.compareTo(b2));
     }
 
     @Test
     public void compareTest14() {
         BigInt b1 = new BigInt("-1234");
         BigInt b2 = BigInt.ZERO;
-        assertEquals(1, b1.compareTo(b2));
+        assertEquals(-1, b1.compareTo(b2));
+    }
+
+    @Test
+    public void compareTest15() {
+        BigInt b1 = BigInt.ZERO;
+        BigInt b2 = BigInt.ZERO;
+        assertEquals(0, b1.compareTo(b2));
     }
 
     @Test
@@ -946,5 +953,40 @@ public class BigIntTest {
         BigInt b1 = new BigInt("-123");
         BigInt b2 = new BigInt("-1234");
         assertNotEquals(b1, b2);
+    }
+
+    @Test
+    public void equalityTest11() {
+        BigInt b1 = BigInt.ZERO;
+        BigInt b2 = new BigInt("1234");
+        assertNotEquals(b1, b2);
+    }
+
+    @Test
+    public void equalityTest12() {
+        BigInt b1 = BigInt.ZERO;
+        BigInt b2 = new BigInt("-1234");
+        assertNotEquals(b1, b2);
+    }
+
+    @Test
+    public void equalityTest13() {
+        BigInt b1 = new BigInt("1234");
+        BigInt b2 = BigInt.ZERO;
+        assertNotEquals(b1, b2);
+    }
+
+    @Test
+    public void equalityTest114() {
+        BigInt b1 = new BigInt("-1234");
+        BigInt b2 = BigInt.ZERO;
+        assertNotEquals(b1, b2);
+    }
+
+    @Test
+    public void equalityTest115() {
+        BigInt b1 = BigInt.ZERO;
+        BigInt b2 = BigInt.ZERO;
+        assertEquals(b1, b2);
     }
 }
