@@ -833,6 +833,34 @@ public class BigIntTest {
     }
 
     @Test
+    public void compareTest11() {
+        BigInt b1 = BigInt.ZERO;
+        BigInt b2 = new BigInt("1234");
+        assertEquals(-1, b1.compareTo(b2));
+    }
+
+    @Test
+    public void compareTest12() {
+        BigInt b1 = BigInt.ZERO;
+        BigInt b2 = new BigInt("-1234");
+        assertEquals(1, b1.compareTo(b2));
+    }
+
+    @Test
+    public void compareTest13() {
+        BigInt b1 = new BigInt("1234");
+        BigInt b2 = BigInt.ZERO;
+        assertEquals(-1, b1.compareTo(b2));
+    }
+
+    @Test
+    public void compareTest14() {
+        BigInt b1 = new BigInt("-1234");
+        BigInt b2 = BigInt.ZERO;
+        assertEquals(1, b1.compareTo(b2));
+    }
+
+    @Test
     public void absoluteValueTest1() {
         BigInt b = new BigInt("123");
         assertEquals(new BigInt("123"), b.abs());

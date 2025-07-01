@@ -383,6 +383,8 @@ public class BigInt implements Comparable<BigInt> {
             }
         } else if (this.sign == -1) {
             return -1;
+        } else if (this.sign == 0) {
+            return -b.sign;
         }
 
         return 1;
