@@ -70,12 +70,14 @@ public class BigInt implements Comparable<BigInt> {
     }
 
     public BigInt add(BigInt addend) {
-        if (this.equals(ZERO)) {
+        BigInt augend = this;
+
+        if (augend.equals(ZERO)) {
             return addend;
         }
 
         if (addend.equals(ZERO)) {
-            return this;
+            return augend;
         }
 
         // Addition and subtraction are complicated by the fact that one or both of the operands might be negative.
@@ -88,32 +90,32 @@ public class BigInt implements Comparable<BigInt> {
         // Once in one of these two forms it's easy to just perform the operation digit by digit starting on the
         // right and working left.
         //
-        // The following table describes the conversions that take place for addition.  A1 represents 'this'
-        // and A2 represents the 'addend' parameter passed to the method.
+        // The following table describes the conversions that take place for addition.  Au represents 'this'
+        // (the augend) and Ad represents the 'addend' parameter passed to the method.
         //
-        // A1 A2
-        //  +  +  =>  A1 + A2
-        //  +  -  =>  A1 - -A2
-        //  -  +  =>  A2 - -A1
-        //  -  -  =>  -(-A1 + -A2)
-        if ((this.sign == 1) && (addend.sign == 1)) {
-            String addendDigits1 = this.digits;
-            String addendDigits2 = addend.digits;
-            int lengthDiff = addendDigits1.length() - addendDigits2.length();
+        // Au Ad
+        //  +  +  =>  Au + Ad
+        //  +  -  =>  Au - -Ad
+        //  -  +  =>  Ad - -Au
+        //  -  -  =>  -(-Au + -Ad)
+        if ((augend.sign == 1) && (addend.sign == 1)) {
+            String augendDigits = augend.digits;
+            String addendDigits = addend.digits;
+            int lengthDiff = augendDigits.length() - addendDigits.length();
 
             if (lengthDiff > 0) {
-                addendDigits2 = "0".repeat(lengthDiff) + addendDigits2;
+                addendDigits = "0".repeat(lengthDiff) + addendDigits;
             } else if (lengthDiff < 0) {
-                addendDigits1 = "0".repeat(-lengthDiff) + addendDigits1;
+                augendDigits = "0".repeat(-lengthDiff) + augendDigits;
             }
 
             StringBuffer resultDigits = new StringBuffer();
             int carry = 0;
 
-            for (int i = addendDigits1.length() - 1; i >= 0; i--) {
-                int addendDigitVal1 = addendDigits1.charAt(i) - '0';
-                int addendDigitVal2 = addendDigits2.charAt(i) - '0';
-                int sum = addendDigitVal1 + addendDigitVal2 + carry;
+            for (int i = augendDigits.length() - 1; i >= 0; i--) {
+                int augendDigitVal = augendDigits.charAt(i) - '0';
+                int addendDigitVal = addendDigits.charAt(i) - '0';
+                int sum = augendDigitVal + addendDigitVal + carry;
                 int resultDigitVal = (sum % 10);
                 carry = sum / 10;
                 resultDigits.append((char) ('0' + resultDigitVal));
@@ -124,26 +126,28 @@ public class BigInt implements Comparable<BigInt> {
             }
 
             return new BigInt(resultDigits.reverse());
-        } else if ((this.sign == 1) && (addend.sign == -1)) {
-            return this.subtract(addend.negate());
-        } else if ((this.sign == -1) && (addend.sign == 1)) {
-            return addend.subtract(this.negate());
+        } else if ((augend.sign == 1) && (addend.sign == -1)) {
+            return augend.subtract(addend.negate());
+        } else if ((augend.sign == -1) && (addend.sign == 1)) {
+            return addend.subtract(augend.negate());
         }
 
         // ((sign == -1) && (addend.sign == -1)) {
-        return this.negate().add(addend.negate()).negate();
+        return augend.negate().add(addend.negate()).negate();
     }
 
     public BigInt subtract(BigInt subtrahend) {
-        if (this.equals(ZERO)) {
+        BigInt minuend = this;
+
+        if (minuend.equals(ZERO)) {
             return subtrahend.negate();
         }
 
         if (subtrahend.equals(ZERO)) {
-            return this;
+            return minuend;
         }
 
-        if (this.equals(subtrahend)) {
+        if (minuend.equals(subtrahend)) {
             return ZERO;
         }
 
@@ -165,16 +169,16 @@ public class BigInt implements Comparable<BigInt> {
         // + -  =>  M + -S
         // - +  =>  -(-M + S)
         // - -  =>  -(-M - -S)
-        if ((this.sign == 1) && (subtrahend.sign == 1)) {
-            if (this.compareTo(subtrahend) < 0) {
-                return subtrahend.subtract(this).negate();
+        if ((minuend.sign == 1) && (subtrahend.sign == 1)) {
+            if (minuend.compareTo(subtrahend) < 0) {
+                return subtrahend.subtract(minuend).negate();
             }
 
             // At this point, both minuend and subtrahend are guaranteed to be positive
             // with minuend >= subtrahend.  Therefore, we can just add leading zeroes to
             // subtrahend if necessary and start doing the subtraction algorithm digit by
             // digit, starting from the right.
-            String minuendDigits = this.digits;
+            String minuendDigits = minuend.digits;
             String subtrahendDigits = subtrahend.digits;
             int lengthDiff = minuendDigits.length() - subtrahendDigits.length();
             subtrahendDigits = "0".repeat(lengthDiff) + subtrahendDigits;
@@ -196,37 +200,38 @@ public class BigInt implements Comparable<BigInt> {
             }
 
             return new BigInt(resultDigits.reverse());
-        } else if ((this.sign == 1) && (subtrahend.sign == -1)) {
-            return this.add(subtrahend.negate());
-        } else if ((this.sign == -1) && (subtrahend.sign == 1)) {
-            return this.negate().add(subtrahend).negate();
+        } else if ((minuend.sign == 1) && (subtrahend.sign == -1)) {
+            return minuend.add(subtrahend.negate());
+        } else if ((minuend.sign == -1) && (subtrahend.sign == 1)) {
+            return minuend.negate().add(subtrahend).negate();
         }
 
-        // ((this.sign == -1) && (subtrahend.sign == -1)) {
-        return this.negate().subtract(subtrahend.negate()).negate();
+        // ((minuend.sign == -1) && (subtrahend.sign == -1)) {
+        return minuend.negate().subtract(subtrahend.negate()).negate();
     }
 
     public BigInt multiply(BigInt multiplier) {
-        if (this.equals(ZERO) || multiplier.equals(ZERO)) {
+        BigInt multiplicand = this;
+
+        if (multiplicand.equals(ZERO) || multiplier.equals(ZERO)) {
             return ZERO;
         }
 
-        if (this.equals(ONE)) {
+        if (multiplicand.equals(ONE)) {
             return multiplier;
         }
 
         if (multiplier.equals(ONE)) {
-            return this;
+            return multiplicand;
         }
 
-        if (this.equals(NEGATIVE_ONE)) {
+        if (multiplicand.equals(NEGATIVE_ONE)) {
             return multiplier.negate();
         }
 
         if (multiplier.equals(NEGATIVE_ONE)) {
-            return this.negate();
+            return multiplicand.negate();
         }
-
 
         // Multiplication is performed by adding a number of partial sums equal to the number of digits in the
         // multiplier as follows:
@@ -253,7 +258,7 @@ public class BigInt implements Comparable<BigInt> {
         //     1 => digits of the multiplicand
         Map<Integer, String> multiplierDigitToPartialSumDigitsMap = new HashMap<>();
         multiplierDigitToPartialSumDigitsMap.put(0, "0");
-        multiplierDigitToPartialSumDigitsMap.put(1, this.digits);
+        multiplierDigitToPartialSumDigitsMap.put(1, multiplicand.digits);
 
         for (int i = multiplier.digits.length() - 1; i >= 0; i--) {
             int multiplierDigitVal = multiplier.digits.charAt(i) - '0';
@@ -264,8 +269,8 @@ public class BigInt implements Comparable<BigInt> {
 
                 int carry = 0;
 
-                for (int j = this.digits.length() - 1; j >= 0; j--) {
-                    int multiplicandDigitVal = this.digits.charAt(j) - '0';
+                for (int j = multiplicand.digits.length() - 1; j >= 0; j--) {
+                    int multiplicandDigitVal = multiplicand.digits.charAt(j) - '0';
                     int product = (multiplierDigitVal * multiplicandDigitVal) + carry;
                     int partialSumDigitVal = product % 10;
                     carry = product / 10;
@@ -285,39 +290,41 @@ public class BigInt implements Comparable<BigInt> {
             partialSumTrailingZeroes.append("0");
         }
 
-        result = new BigInt((this.sign * multiplier.sign == -1 ? "-" : "") + result.digits);
+        result = new BigInt((multiplicand.sign * multiplier.sign == -1 ? "-" : "") + result.digits);
 
         return result;
     }
 
-    public BigInt divide(BigInt divisor) {
-        if (divisor.equals(ZERO)) {
+    public BigInt divide(BigInt denominator) {
+        BigInt numerator = this;
+
+        if (denominator.equals(ZERO)) {
             throw new RuntimeException("Cannot divide by zero.");
         }
 
-        if (this.equals(ZERO)) {
+        if (numerator.equals(ZERO)) {
             return ZERO;
         }
 
-        if (divisor.equals(ONE)) {
-            return this;
+        if (denominator.equals(ONE)) {
+            return numerator;
         }
 
-        if (divisor.equals(NEGATIVE_ONE)) {
-            return this.negate();
+        if (denominator.equals(NEGATIVE_ONE)) {
+            return numerator.negate();
         }
 
-        BigInt dividendAbs = this.abs();
-        BigInt divisorAbs = divisor.abs();
+        BigInt numeratorAbs = numerator.abs();
+        BigInt denominatorAbs = denominator.abs();
 
-        int dividendToDivisorMagnitudeCompare = dividendAbs.compareTo(divisorAbs);
+        int numeratorToDenominatorMagnitudeCompare = numeratorAbs.compareTo(denominatorAbs);
 
-        if (dividendToDivisorMagnitudeCompare < 0) {
+        if (numeratorToDenominatorMagnitudeCompare < 0) {
             BigInt result = ZERO;
-            result.remainder = this;
+            result.remainder = numerator;
             return result;
-        } else if (dividendToDivisorMagnitudeCompare == 0) {
-            BigInt result = this.sign == divisor.sign ? ONE : NEGATIVE_ONE;
+        } else if (numeratorToDenominatorMagnitudeCompare == 0) {
+            BigInt result = numerator.sign == denominator.sign ? ONE : NEGATIVE_ONE;
             result.remainder = ZERO;
             return result;
         }
@@ -326,17 +333,17 @@ public class BigInt implements Comparable<BigInt> {
         StringBuffer remainderDigits = new StringBuffer();
         BigInt remainder = null;
 
-        for (int i = 0; i < dividendAbs.digits.length(); i++) {
-            remainderDigits.append(dividendAbs.digits.charAt(i));
+        for (int i = 0; i < numerator.digits.length(); i++) {
+            remainderDigits.append(numerator.digits.charAt(i));
             remainder = new BigInt(remainderDigits);
 
             int resultDigitVal = 0;
-            BigInt tmp = remainder.subtract(divisorAbs);
+            BigInt tmp = remainder.subtract(denominatorAbs);
 
             while (tmp.compareTo(ZERO) >= 0) {
                 resultDigitVal++;
                 remainder = tmp;
-                tmp = remainder.subtract(divisorAbs);
+                tmp = remainder.subtract(denominatorAbs);
             }
 
             resultDigits.append((char) ('0' + resultDigitVal));
@@ -344,11 +351,11 @@ public class BigInt implements Comparable<BigInt> {
         }
 
         if (remainder != null) {
-            // remainder should always take the sign of the dividend
-            remainder = new BigInt((this.sign == -1 ? "-" : "") + remainder.digits);
+            // remainder should always take the sign of the numerator
+            remainder = new BigInt((numerator.sign == -1 ? "-" : "") + remainder.digits);
         }
 
-        BigInt result = new BigInt((this.sign * divisor.sign == -1 ? "-" : "") + resultDigits);
+        BigInt result = new BigInt((numerator.sign * denominator.sign == -1 ? "-" : "") + resultDigits);
         result.remainder = remainder;
 
         return result;
