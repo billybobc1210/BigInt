@@ -753,7 +753,7 @@ public class BigIntTest {
         b1 = new BigInt("36");
         b2 = new BigInt("-5");
         result = b1.modulus(b2);
-        assertEquals(new BigInt("1"), result);
+        assertEquals(BigInt.ONE, result);
 
         // -36/-5 =  7, rem = -1  =>  7 × -5 - 1 = -36
         b1 = new BigInt("-36");
