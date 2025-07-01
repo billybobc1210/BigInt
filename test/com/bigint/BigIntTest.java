@@ -570,6 +570,13 @@ public class BigIntTest {
     }
 
     @Test
+    public void multiplyWithRepeatedDigitsInMultiplier() {
+        BigInt b1 = new BigInt("1234567890");
+        BigInt b2 = new BigInt("32321010");
+        assertEquals(new BigInt("39902481118368900"), b1.multiply(b2));
+    }
+
+    @Test
     public void dividePositiveByZeroTest() {
         boolean success = true;
 
