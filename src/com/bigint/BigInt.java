@@ -375,7 +375,7 @@ public class BigInt implements Comparable<BigInt> {
     }
 
     public BigInt negate() {
-        return new BigInt(this.sign * -1, this.digits);
+        return new BigInt(-this.sign, this.digits);
     }
 
     @Override
