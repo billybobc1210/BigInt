@@ -714,7 +714,7 @@ public class BigIntTest {
     public void dividesEvenlyModulusTest() {
         BigInt b1 = new BigInt("10");
         BigInt b2 = new BigInt("2");
-        BigInt result = b1.modulus(b2);
+        BigInt result = b1.remainder(b2);
         assertEquals(BigInt.ZERO, result);
     }
 
@@ -722,22 +722,22 @@ public class BigIntTest {
     public void divideBySameAbsoluteValueModulusTest() {
         BigInt b1 = new BigInt("56812023881611315081");
         BigInt b2 = new BigInt("56812023881611315081");
-        BigInt result = b1.modulus(b2);
+        BigInt result = b1.remainder(b2);
         assertEquals(BigInt.ZERO, result);
 
         b1 = new BigInt("-56812023881611315081");
         b2 = new BigInt("-56812023881611315081");
-        result = b1.modulus(b2);
+        result = b1.remainder(b2);
         assertEquals(BigInt.ZERO, result);
 
         b1 = new BigInt("-56812023881611315081");
         b2 = new BigInt("56812023881611315081");
-        result = b1.modulus(b2);
+        result = b1.remainder(b2);
         assertEquals(BigInt.ZERO, result);
 
         b1 = new BigInt("56812023881611315081");
         b2 = new BigInt("-56812023881611315081");
-        result = b1.modulus(b2);
+        result = b1.remainder(b2);
         assertEquals(BigInt.ZERO, result);
     }
 
@@ -746,19 +746,19 @@ public class BigIntTest {
         // -36/5 = -7, rem = -1  =>  (-7 x 5) - 1 = -36
         BigInt b1 = new BigInt("-36");
         BigInt b2 = new BigInt("5");
-        BigInt result = b1.modulus(b2);
+        BigInt result = b1.remainder(b2);
         assertEquals(BigInt.NEGATIVE_ONE, result);
 
         //  36/-5 = -7, rem =  1  =>  (-7 x -5) + 1 =  36
         b1 = new BigInt("36");
         b2 = new BigInt("-5");
-        result = b1.modulus(b2);
+        result = b1.remainder(b2);
         assertEquals(BigInt.ONE, result);
 
         // -36/-5 =  7, rem = -1  =>  7 × -5 - 1 = -36
         b1 = new BigInt("-36");
         b2 = new BigInt("-5");
-        result = b1.modulus(b2);
+        result = b1.remainder(b2);
         assertEquals(BigInt.NEGATIVE_ONE, result);
     }
 
