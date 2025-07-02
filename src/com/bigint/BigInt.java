@@ -386,12 +386,6 @@ public class BigInt implements Comparable<BigInt> {
                 return 0;
             }
 
-            if (this.sign == -1) {
-                String tmp = digits1;
-                digits1 = digits2;
-                digits2 = tmp;
-            }
-
             int lengthDiff = digits1.length() - digits2.length();
 
             if (lengthDiff > 0) {
@@ -402,9 +396,9 @@ public class BigInt implements Comparable<BigInt> {
 
             for (int i = 0; i < digits1.length(); i++) {
                 if (digits1.charAt(i) < digits2.charAt(i)) {
-                    return -1;
+                    return -this.sign;
                 } else if (digits1.charAt(i) > digits2.charAt(i)) {
-                    return 1;
+                    return this.sign;
                 }
             }
         } else if (this.sign == -1) {
