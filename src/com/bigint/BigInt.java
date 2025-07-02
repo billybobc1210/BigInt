@@ -324,7 +324,7 @@ public class BigInt implements Comparable<BigInt> {
             result.remainder = numerator;
             return result;
         } else if (numeratorToDenominatorMagnitudeCompare == 0) {
-            BigInt result = numerator.sign == denominator.sign ? ONE : NEGATIVE_ONE;
+            BigInt result = numerator.sign * denominator.sign == 1 ? ONE : NEGATIVE_ONE;
             result.remainder = ZERO;
             return result;
         }
@@ -338,12 +338,10 @@ public class BigInt implements Comparable<BigInt> {
             remainder = new BigInt(remainderDigits);
 
             int resultDigitVal = 0;
-            BigInt tmp = remainder.subtract(denominatorAbs);
 
-            while (tmp.compareTo(ZERO) >= 0) {
+            while (remainder.compareTo(denominatorAbs) >= 0) {
                 resultDigitVal++;
-                remainder = tmp;
-                tmp = remainder.subtract(denominatorAbs);
+                remainder = remainder.subtract(denominatorAbs);
             }
 
             resultDigits.append((char) ('0' + resultDigitVal));
