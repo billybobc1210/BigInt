@@ -12,6 +12,19 @@ public class BigInt implements Comparable<BigInt> {
     private String digits = "";
     private BigInt remainder = null;
 
+
+    private BigInt(int sign, String digits) {
+        this((sign == -1 ? "-" : "") + digits);
+    }
+
+    private BigInt(int sign, StringBuffer digits) {
+        this(sign, digits.toString());
+    }
+
+    private BigInt(int sign, StringBuilder digits) {
+        this(sign, digits.toString());
+    }
+
     public BigInt(int i) {
         this(Integer.toString(i));
     }
@@ -290,9 +303,7 @@ public class BigInt implements Comparable<BigInt> {
             partialProductTrailingZeroes.append("0");
         }
 
-        result = new BigInt((multiplicand.sign * multiplier.sign == -1 ? "-" : "") + result.digits);
-
-        return result;
+        return new BigInt(multiplicand.sign * multiplier.sign, result.digits);
     }
 
     public BigInt divide(BigInt denominator) {
@@ -347,8 +358,8 @@ public class BigInt implements Comparable<BigInt> {
             remainderDigits = new StringBuffer(remainder.digits);
         }
 
-        BigInt result = new BigInt((numerator.sign / denominator.sign == -1 ? "-" : "") + resultDigits);
-        result.remainder = new BigInt((numerator.sign == -1 ? "-" : "") + remainderDigits);
+        BigInt result = new BigInt(numerator.sign / denominator.sign, resultDigits);
+        result.remainder = new BigInt(numerator.sign, remainderDigits);
 
         return result;
     }
@@ -364,7 +375,7 @@ public class BigInt implements Comparable<BigInt> {
     }
 
     public BigInt negate() {
-        return new BigInt(((this.sign * -1 == -1) ? "-" : "") + this.digits);
+        return new BigInt(this.sign * -1, this.digits);
     }
 
     @Override
