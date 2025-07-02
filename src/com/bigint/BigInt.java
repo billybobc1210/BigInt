@@ -331,11 +331,10 @@ public class BigInt implements Comparable<BigInt> {
 
         StringBuffer resultDigits = new StringBuffer();
         StringBuffer remainderDigits = new StringBuffer();
-        BigInt remainder = null;
 
         for (int i = 0; i < numerator.digits.length(); i++) {
             remainderDigits.append(numerator.digits.charAt(i));
-            remainder = new BigInt(remainderDigits);
+            BigInt remainder = new BigInt(remainderDigits);
 
             int resultDigitVal = 0;
 
@@ -348,13 +347,8 @@ public class BigInt implements Comparable<BigInt> {
             remainderDigits = new StringBuffer(remainder.digits);
         }
 
-        if (remainder != null) {
-            // remainder should always take the sign of the numerator
-            remainder = new BigInt((numerator.sign == -1 ? "-" : "") + remainder.digits);
-        }
-
-        BigInt result = new BigInt((numerator.sign * denominator.sign == -1 ? "-" : "") + resultDigits);
-        result.remainder = remainder;
+        BigInt result = new BigInt((numerator.sign / denominator.sign == -1 ? "-" : "") + resultDigits);
+        result.remainder = new BigInt((numerator.sign == -1 ? "-" : "") + remainderDigits);
 
         return result;
     }
