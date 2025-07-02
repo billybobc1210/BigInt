@@ -401,13 +401,9 @@ public class BigInt implements Comparable<BigInt> {
                     return this.sign;
                 }
             }
-        } else if (this.sign == -1) {
-            return -1;
-        } else if (this.sign == 0) {
-            return -b.sign;
         }
 
-        return 1;
+        return this.sign > b.sign ? 1 : -1;
     }
 
     @Override
