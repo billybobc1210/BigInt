@@ -393,10 +393,6 @@ public class BigInt implements Comparable<BigInt> {
     @Override
     public int compareTo(BigInt b) {
         if (this.sign == b.sign) {
-            if (this.digits.equals(b.digits)) {
-                return 0;
-            }
-
             int lengthDiff = this.digits.length() - b.digits.length();
 
             if (lengthDiff > 0) {
@@ -412,6 +408,8 @@ public class BigInt implements Comparable<BigInt> {
                     return this.sign;
                 }
             }
+
+            return 0;
         }
 
         return this.sign > b.sign ? 1 : -1;
