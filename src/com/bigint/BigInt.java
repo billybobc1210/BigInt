@@ -265,41 +265,44 @@ public class BigInt implements Comparable<BigInt> {
         // the digits of the partial product (without trailing zeros) in the multiplierDigitToPartialProductDigitsMap
         // hash map to be retrieved the next time we encounter that digit in multiplier.
         //
-        // Further, we can seed the map for the digits 0 and 1 as follows:
+        // Further, we can seed the map for the digit '1' as follows:
         //
-        //     0 => "0"
         //     1 => digits of the multiplicand
         Map<Integer, String> multiplierDigitToPartialProductDigitsMap = new HashMap<>();
-        multiplierDigitToPartialProductDigitsMap.put(0, "0");
         multiplierDigitToPartialProductDigitsMap.put(1, multiplicand.digits);
 
         for (int i = multiplier.digits.length() - 1; i >= 0; i--) {
             int multiplierDigitVal = multiplier.digits.charAt(i) - '0';
-            String partialProductDigits = multiplierDigitToPartialProductDigitsMap.get(multiplierDigitVal);
 
-            if (partialProductDigits == null) {
-                StringBuffer partialProductDigitsBuffer = new StringBuffer();
+            // if the multiplier digit is 0 there is nothing to do because the partial product will be 0
+            if (multiplierDigitVal != 0) {
+                String partialProductDigits = multiplierDigitToPartialProductDigitsMap.get(multiplierDigitVal);
 
-                int carry = 0;
+                if (partialProductDigits == null) {
+                    StringBuffer partialProductDigitsBuffer = new StringBuffer();
 
-                for (int j = multiplicand.digits.length() - 1; j >= 0; j--) {
-                    int multiplicandDigitVal = multiplicand.digits.charAt(j) - '0';
-                    int product = (multiplierDigitVal * multiplicandDigitVal) + carry;
-                    int partialProductDigitVal = product % 10;
-                    carry = product / 10;
-                    partialProductDigitsBuffer.append((char) ('0' + partialProductDigitVal));
+                    int carry = 0;
+
+                    for (int j = multiplicand.digits.length() - 1; j >= 0; j--) {
+                        int multiplicandDigitVal = multiplicand.digits.charAt(j) - '0';
+                        int product = (multiplierDigitVal * multiplicandDigitVal) + carry;
+                        int partialProductDigitVal = product % 10;
+                        carry = product / 10;
+                        partialProductDigitsBuffer.append((char) ('0' + partialProductDigitVal));
+                    }
+
+                    if (carry > 0) {
+                        partialProductDigitsBuffer.append((char) ('0' + carry));
+                    }
+
+                    partialProductDigits = partialProductDigitsBuffer.reverse().toString();
+                    multiplierDigitToPartialProductDigitsMap.put(multiplierDigitVal, partialProductDigits);
                 }
 
-                if (carry > 0) {
-                    partialProductDigitsBuffer.append((char) ('0' + carry));
-                }
-
-                partialProductDigits = partialProductDigitsBuffer.reverse().toString();
-                multiplierDigitToPartialProductDigitsMap.put(multiplierDigitVal, partialProductDigits);
+                BigInt partialProduct = new BigInt(new StringBuffer(partialProductDigits).append(partialProductTrailingZeroes));
+                result = result.add(partialProduct);
             }
 
-            BigInt partialProduct = new BigInt(new StringBuffer(partialProductDigits).append(partialProductTrailingZeroes));
-            result = result.add(partialProduct);
             partialProductTrailingZeroes.append("0");
         }
 
