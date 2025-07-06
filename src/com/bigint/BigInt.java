@@ -368,9 +368,7 @@ public class BigInt implements Comparable<BigInt> {
     }
 
     public BigInt remainder(BigInt denominator) {
-        BigInt quotient = this.divide(denominator);
-
-        return quotient.remainder;
+        return this.divide(denominator).remainder;
     }
 
     public BigInt abs() {
