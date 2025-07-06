@@ -393,19 +393,21 @@ public class BigInt implements Comparable<BigInt> {
     @Override
     public int compareTo(BigInt b) {
         if (this.sign == b.sign) {
-            int lengthDiff = this.digits.length() - b.digits.length();
+            if (this.sign != 0) {
+                int lengthDiff = this.digits.length() - b.digits.length();
 
-            if (lengthDiff > 0) {
-                return this.sign;
-            } else if (lengthDiff < 0) {
-                return -this.sign;
-            }
-
-            for (int i = 0; i < this.digits.length(); i++) {
-                if (this.digits.charAt(i) < b.digits.charAt(i)) {
-                    return -this.sign;
-                } else if (this.digits.charAt(i) > b.digits.charAt(i)) {
+                if (lengthDiff > 0) {
                     return this.sign;
+                } else if (lengthDiff < 0) {
+                    return -this.sign;
+                }
+
+                for (int i = 0; i < this.digits.length(); i++) {
+                    if (this.digits.charAt(i) < b.digits.charAt(i)) {
+                        return -this.sign;
+                    } else if (this.digits.charAt(i) > b.digits.charAt(i)) {
+                        return this.sign;
+                    }
                 }
             }
 
