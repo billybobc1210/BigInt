@@ -183,12 +183,16 @@ public class BigInt implements Comparable<BigInt> {
         // - +  =>  -(-M + S)
         // - -  =>  -(-M - -S)
         if ((minuend.sign == 1) && (subtrahend.sign == 1)) {
-            if (minuend.compareTo(subtrahend) < 0) {
+            int minuendToSubtrahendCompare = minuend.compareTo(subtrahend);
+
+            if (minuendToSubtrahendCompare < 0) {
                 return subtrahend.subtract(minuend).negate();
+            } else if (minuendToSubtrahendCompare == 0) {
+                return ZERO;
             }
 
             // At this point, both minuend and subtrahend are guaranteed to be positive
-            // with minuend >= subtrahend.  Therefore, we can just add leading zeroes to
+            // with minuend > subtrahend.  Therefore, we can just add leading zeroes to
             // subtrahend if necessary and start doing the subtraction algorithm digit by
             // digit, starting from the right.
             String minuendDigits = minuend.digits;
