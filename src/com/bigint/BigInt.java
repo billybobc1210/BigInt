@@ -381,18 +381,18 @@ public class BigInt implements Comparable<BigInt> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof BigInt b) {
-            return this.compareTo(b) == 0;
+        if (obj instanceof BigInt other) {
+            return this.compareTo(other) == 0;
         }
 
         return false;
     }
 
     @Override
-    public int compareTo(BigInt b) {
-        if (this.sign == b.sign) {
+    public int compareTo(BigInt other) {
+        if (this.sign == other.sign) {
             if (this.sign != 0) {
-                int lengthDiff = this.digits.length() - b.digits.length();
+                int lengthDiff = this.digits.length() - other.digits.length();
 
                 if (lengthDiff > 0) {
                     return this.sign;
@@ -401,9 +401,9 @@ public class BigInt implements Comparable<BigInt> {
                 }
 
                 for (int i = 0; i < this.digits.length(); i++) {
-                    if (this.digits.charAt(i) < b.digits.charAt(i)) {
+                    if (this.digits.charAt(i) < other.digits.charAt(i)) {
                         return -this.sign;
-                    } else if (this.digits.charAt(i) > b.digits.charAt(i)) {
+                    } else if (this.digits.charAt(i) > other.digits.charAt(i)) {
                         return this.sign;
                     }
                 }
@@ -412,7 +412,7 @@ public class BigInt implements Comparable<BigInt> {
             return 0;
         }
 
-        return this.sign > b.sign ? 1 : -1;
+        return this.sign > other.sign ? 1 : -1;
     }
 
     @Override
