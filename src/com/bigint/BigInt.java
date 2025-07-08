@@ -47,8 +47,9 @@ public class BigInt implements Comparable<BigInt> {
         if (s != null) {
             digits = s;
             boolean startsWithNegativeSign = (s.charAt(0) == '-');
+            boolean startsWithPositiveSign = (s.charAt(0) == '+');
 
-            if (startsWithNegativeSign) {
+            if (startsWithNegativeSign || startsWithPositiveSign) {
                 digits = s.substring(1);
             }
 

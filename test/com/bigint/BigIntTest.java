@@ -68,6 +68,19 @@ public class BigIntTest {
     }
 
     @Test
+    public void constructionFromAllZeroesWithLeadingPositiveSignInStringTest() {
+        boolean success = true;
+
+        try {
+            BigInt b = new BigInt("+000000000000");
+        } catch (Exception ex) {
+            success = false;
+        }
+
+        assertTrue(success);
+    }
+
+    @Test
     public void constructionFromSingleZeroTest() {
         boolean success = true;
 
@@ -88,6 +101,34 @@ public class BigIntTest {
         try {
             BigInt b = new BigInt("-0");
             assertEquals(BigInt.ZERO, b);
+        } catch (Exception ex) {
+            success = false;
+        }
+
+        assertTrue(success);
+    }
+
+    @Test
+    public void constructionFromSingleZeroWithLeadingPositiveSignTest() {
+        boolean success = true;
+
+        try {
+            BigInt b = new BigInt("+0");
+            assertEquals(BigInt.ZERO, b);
+        } catch (Exception ex) {
+            success = false;
+        }
+
+        assertTrue(success);
+    }
+
+    @Test
+    public void constructionFromValidPositiveIntegerWithLeadingPositiveSingTest() {
+        boolean success = true;
+
+        try {
+            BigInt b = new BigInt("+123");
+            assertEquals(new BigInt(123), b);
         } catch (Exception ex) {
             success = false;
         }
