@@ -343,7 +343,7 @@ public class BigInt implements Comparable<BigInt> {
             result.remainder = numerator;
             return result;
         } else if (numeratorToDenominatorMagnitudeCompare == 0) {
-            BigInt result = numerator.sign * denominator.sign == 1 ? ONE : NEGATIVE_ONE;
+            BigInt result = numerator.sign / denominator.sign == 1 ? ONE : NEGATIVE_ONE;
             result.remainder = ZERO;
             return result;
         }
