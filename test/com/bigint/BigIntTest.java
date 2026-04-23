@@ -168,7 +168,7 @@ public class BigIntTest {
 
         try {
             BigInt b = new BigInt((String) null);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             success = false;
         }
 
@@ -181,7 +181,7 @@ public class BigIntTest {
 
         try {
             BigInt b = new BigInt("");
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             success = false;
         }
 
@@ -194,7 +194,7 @@ public class BigIntTest {
 
         try {
             BigInt b = new BigInt("-");
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             success = false;
         }
 
@@ -220,7 +220,7 @@ public class BigIntTest {
 
         try {
             BigInt b = new BigInt("123abc45");
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             success = false;
         }
 
@@ -625,7 +625,7 @@ public class BigIntTest {
             BigInt b1 = new BigInt("9238472234234");
             BigInt b2 = BigInt.ZERO;
             BigInt test = b1.divide(b2);
-        } catch (Exception ex) {
+        } catch (ArithmeticException ex) {
             success = false;
         }
 
@@ -640,7 +640,7 @@ public class BigIntTest {
             BigInt b1 = BigInt.ZERO;
             BigInt b2 = BigInt.ZERO;
             BigInt test = b1.divide(b2);
-        } catch (Exception ex) {
+        } catch (ArithmeticException ex) {
             success = false;
         }
 
@@ -655,7 +655,7 @@ public class BigIntTest {
             BigInt b1 = new BigInt("-9238472234234");
             BigInt b2 = BigInt.ZERO;
             BigInt test = b1.divide(b2);
-        } catch (Exception ex) {
+        } catch (ArithmeticException ex) {
             success = false;
         }
 

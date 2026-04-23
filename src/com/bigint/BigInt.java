@@ -44,7 +44,7 @@ public class BigInt implements Comparable<BigInt> {
     public BigInt(String s) {
         boolean isValidInteger = true;
 
-        if (s != null) {
+        if ((s != null) && !s.isBlank()) {
             digits = s;
             boolean startsWithNegativeSign = (s.charAt(0) == '-');
             boolean startsWithPositiveSign = (s.charAt(0) == '+');
@@ -53,10 +53,10 @@ public class BigInt implements Comparable<BigInt> {
                 digits = s.substring(1);
             }
 
-            if (!digits.isEmpty()) {
+            if (!digits.isBlank()) {
                 digits = digits.replaceFirst("^0*", "");
 
-                if (digits.isEmpty()) {
+                if (digits.isBlank()) {
                     digits = "0";
                     sign = 0;
                 } else {
@@ -79,7 +79,7 @@ public class BigInt implements Comparable<BigInt> {
         }
 
         if (!isValidInteger) {
-            throw new RuntimeException("Invalid integer.");
+            throw new NumberFormatException("For input string: \"" + s + "\"");
         }
     }
 
@@ -318,7 +318,7 @@ public class BigInt implements Comparable<BigInt> {
         BigInt numerator = this;
 
         if (denominator.equals(ZERO)) {
-            throw new RuntimeException("Cannot divide by zero.");
+            throw new ArithmeticException("/ by zero");
         }
 
         if (numerator.equals(ZERO)) {
@@ -343,7 +343,7 @@ public class BigInt implements Comparable<BigInt> {
             result.remainder = numerator;
             return result;
         } else if (numeratorToDenominatorMagnitudeCompare == 0) {
-            BigInt result = numerator.sign / denominator.sign == 1 ? ONE : NEGATIVE_ONE;
+            BigInt result = new BigInt(numerator.sign / denominator.sign, ONE.digits);
             result.remainder = ZERO;
             return result;
         }
