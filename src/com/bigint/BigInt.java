@@ -2,8 +2,11 @@ package com.bigint;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BigInt implements Comparable<BigInt> {
+    Pattern validNumberFormatPattern = Pattern.compile("^(-?\\+?)(\\d+)$");
     public static final BigInt ZERO = new BigInt("0");
     public static final BigInt ONE = new BigInt("1");
     public static final BigInt NEGATIVE_ONE = ONE.negate();
@@ -44,32 +47,16 @@ public class BigInt implements Comparable<BigInt> {
     public BigInt(String s) {
         boolean isValidInteger = true;
 
-        if ((s != null) && !s.isBlank()) {
-            digits = s;
-            boolean startsWithNegativeSign = (s.charAt(0) == '-');
-            boolean startsWithPositiveSign = (s.charAt(0) == '+');
+        if (s != null) {
+            Matcher validNumberFormatMatcher = validNumberFormatPattern.matcher(s);
 
-            if (startsWithNegativeSign || startsWithPositiveSign) {
-                digits = s.substring(1);
-            }
-
-            if (!digits.isBlank()) {
-                digits = digits.replaceFirst("^0*", "");
+            if (validNumberFormatMatcher.matches()) {
+                sign = validNumberFormatMatcher.group(1).equals("-") ? -1 : 1;
+                digits = validNumberFormatMatcher.group(2).replaceFirst("^0*", "");
 
                 if (digits.isBlank()) {
                     digits = "0";
                     sign = 0;
-                } else {
-                    for (int i = 0; i < digits.length(); i++) {
-                        char c = digits.charAt(i);
-
-                        if (!Character.isDigit(c)) {
-                            isValidInteger = false;
-                            break;
-                        }
-                    }
-
-                    sign = startsWithNegativeSign ? -1 : 1;
                 }
             } else {
                 isValidInteger = false;
