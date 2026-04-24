@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BigInt implements Comparable<BigInt> {
-    Pattern validNumberFormatPattern = Pattern.compile("^(-?\\+?)(\\d+)$");
+    Pattern validNumberFormatPattern = Pattern.compile("^(-?|\\+?)(\\d+)$");
     public static final BigInt ZERO = new BigInt("0");
     public static final BigInt ONE = new BigInt("1");
     public static final BigInt NEGATIVE_ONE = ONE.negate();

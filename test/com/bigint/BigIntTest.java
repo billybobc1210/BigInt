@@ -189,6 +189,19 @@ public class BigIntTest {
     }
 
     @Test
+    public void constructionFailureNegativeAndPositiveSignInStringTest() {
+        boolean success = true;
+
+        try {
+            BigInt b = new BigInt("-+1234");
+        } catch (NumberFormatException ex) {
+            success = false;
+        }
+
+        assertFalse(success);
+    }
+
+    @Test
     public void constructionFailureOnlyNegativeSignInStringTest() {
         boolean success = true;
 
