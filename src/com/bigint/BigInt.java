@@ -28,12 +28,12 @@ public class BigInt implements Comparable<BigInt> {
         this(sign, digits.toString());
     }
 
-    public BigInt(int i) {
-        this(Integer.toString(i));
+    public BigInt(Integer i) {
+        this(i.toString());
     }
 
-    public BigInt(long l) {
-        this(Long.toString(l));
+    public BigInt(Long l) {
+        this(l.toString());
     }
 
     public BigInt(StringBuffer s) {
@@ -45,8 +45,6 @@ public class BigInt implements Comparable<BigInt> {
     }
 
     public BigInt(String s) {
-        boolean isValidInteger = true;
-
         if (s != null) {
             Matcher validNumberFormatMatcher = validNumberFormatPattern.matcher(s);
 
@@ -59,14 +57,10 @@ public class BigInt implements Comparable<BigInt> {
                     sign = 0;
                 }
             } else {
-                isValidInteger = false;
+                throw new NumberFormatException("For input string: \"" + s + "\"");
             }
         } else {
-            isValidInteger = false;
-        }
-
-        if (!isValidInteger) {
-            throw new NumberFormatException("For input string: \"" + s + "\"");
+            throw new NullPointerException();
         }
     }
 

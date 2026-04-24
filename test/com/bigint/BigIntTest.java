@@ -168,7 +168,7 @@ public class BigIntTest {
 
         try {
             BigInt b = new BigInt((String) null);
-        } catch (NumberFormatException ex) {
+        } catch (NullPointerException ex) {
             success = false;
         }
 
