@@ -929,6 +929,27 @@ public class BigIntTest {
     }
 
     @Test
+    public void compareTest16() {
+        BigInt b1 = new BigInt("0001234");
+        BigInt b2 = new BigInt("00001234");
+        assertEquals(0, b1.compareTo(b2));
+    }
+
+    @Test
+    public void compareTest17() {
+        BigInt b1 = new BigInt("-0001234");
+        BigInt b2 = new BigInt("-00001234");
+        assertEquals(0, b1.compareTo(b2));
+    }
+
+    @Test
+    public void compareTest18() {
+        BigInt b1 = new BigInt("+0001234");
+        BigInt b2 = new BigInt("+00001234");
+        assertEquals(0, b1.compareTo(b2));
+    }
+
+    @Test
     public void absoluteValueTest1() {
         BigInt b = new BigInt("123");
         assertEquals(new BigInt("123"), b.abs());
