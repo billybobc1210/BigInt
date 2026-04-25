@@ -176,68 +176,22 @@ public class BigIntTest {
     }
 
     @Test
-    public void constructionFailureFromEmptyStringTest() {
-        boolean success = true;
+    public void constructionFailureFromInvalidNumberFormatTest() {
+        String[] invalidNumberFormats = {
+            "", "-", "+", "-+1234", "+-1234", "++1234", "--1234", "- 1234", "+ 1234", "123abc45", " 12345", "12345 "
+        };
 
-        try {
-            BigInt b = new BigInt("");
-        } catch (NumberFormatException ex) {
-            success = false;
+        for (String s: invalidNumberFormats) {
+            boolean success = true;
+
+            try {
+                BigInt b = new BigInt(s);
+            } catch (NumberFormatException ex) {
+                success = false;
+            }
+
+            assertFalse(success);
         }
-
-        assertFalse(success);
-    }
-
-    @Test
-    public void constructionFailureNegativeAndPositiveSignInStringTest() {
-        boolean success = true;
-
-        try {
-            BigInt b = new BigInt("-+1234");
-        } catch (NumberFormatException ex) {
-            success = false;
-        }
-
-        assertFalse(success);
-    }
-
-    @Test
-    public void constructionFailureOnlyNegativeSignInStringTest() {
-        boolean success = true;
-
-        try {
-            BigInt b = new BigInt("-");
-        } catch (NumberFormatException ex) {
-            success = false;
-        }
-
-        assertFalse(success);
-    }
-
-    @Test
-    public void constructionFailureFromLeadingSpacesInStringTest() {
-        boolean success = true;
-
-        try {
-            BigInt b = new BigInt(" 12345");
-        } catch (Exception ex) {
-            success = false;
-        }
-
-        assertFalse(success);
-    }
-
-    @Test
-    public void constructionFailureFromInvalidCharactersInStringTest() {
-        boolean success = true;
-
-        try {
-            BigInt b = new BigInt("123abc45");
-        } catch (NumberFormatException ex) {
-            success = false;
-        }
-
-        assertFalse(success);
     }
 
     @Test
