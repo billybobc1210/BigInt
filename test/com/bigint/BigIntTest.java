@@ -1013,14 +1013,14 @@ public class BigIntTest {
     }
 
     @Test
-    public void equalityTest114() {
+    public void equalityTest14() {
         BigInt b1 = new BigInt("-1234");
         BigInt b2 = BigInt.ZERO;
         assertNotEquals(b1, b2);
     }
 
     @Test
-    public void equalityTest115() {
+    public void equalityTest15() {
         BigInt b1 = BigInt.ZERO;
         BigInt b2 = BigInt.ZERO;
         assertEquals(b1, b2);
